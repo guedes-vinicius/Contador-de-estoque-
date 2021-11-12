@@ -7,10 +7,15 @@ import 'package:get/get.dart';
 import 'package:contador_estoque/widgets/home_widgets.dart';
 import 'dart:async';
 import 'package:contador_estoque/screens/Add Item.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'package:contador_estoque/data/text.dart';
+import 'package:flutter/foundation.dart';
 
 class ListaDeProdutos extends StatefulWidget {
-  ListaDeProdutos({Key key, this.titulo}) : super(key: key);
+  ListaDeProdutos({Key key, this.titulo,this.storage}) : super(key: key);
   final String titulo;
+  final fileTransfer storage;
 
   @override
   _ListaDeprodutosState createState() => _ListaDeprodutosState();
@@ -74,6 +79,16 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
       print(
           "${listaDeProdutos[i].NomeProd} | ${listaDeProdutos[i].CodBar} | ${listaDeProdutos[i].QtdProd}");
     }
+  }
+
+  Future <File> escreverArquivo(){
+    for(var i = 0;i<qtdListaPesquisa;i++){
+      dynamic linha = "${listaPesquisa[i].NomeProd} | ${listaPesquisa[i].CodBar} | ${listaPesquisa[i].QtdProd}";
+      //return widget.storage.writeFile(linha);
+    }
+    return widget.storage.writeFile(listaPesquisa[1].NomeProd);
+
+    //Get.snackbar('Exportado','Itens exportado com sucesso!');
   }
 
   @override
@@ -168,7 +183,7 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
                 icon: Icon(Icons.description_rounded),
                 color: Colors.white,
                 onPressed: () {
-                  testePercorrer();
+                  escreverArquivo();
                 }),
             Padding(padding: EdgeInsets.fromLTRB(10, 0, 8, 0)),
             IconButton(
@@ -411,7 +426,7 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
               child: SingleChildScrollView(
                   child: Form(
                 key: _formkey,
-                child: Column(
+                    child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Flexible(
@@ -463,6 +478,7 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
           );
         });
   }
+
 
   Widget _listaDeProdutos() {
     return ListView.builder(

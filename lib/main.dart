@@ -4,6 +4,7 @@ import 'package:contador_estoque/widgets/home_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
+import 'package:contador_estoque/data/text.dart';
 
 void main() {
   runApp(MyApp());
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/AddItem', page: () => AddItem())
       ],
       title: 'Contador de Estoque',
-      home: ListaDeProdutos(titulo: 'Contador de Estoque'),
+      home: ListaDeProdutos(titulo: 'Contador de Estoque', storage: fileTransfer()),
     );
   }
 }
