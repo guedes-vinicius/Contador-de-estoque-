@@ -33,6 +33,7 @@ dependencies:
   provider: ^5.0.0
   sqflite: ^1.1.5
   path_provider: ^1.1.0
+  
 
 
 

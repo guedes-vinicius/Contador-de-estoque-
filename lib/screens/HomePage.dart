@@ -13,9 +13,13 @@ import 'package:contador_estoque/data/text.dart';
 import 'package:flutter/foundation.dart';
 
 class ListaDeProdutos extends StatefulWidget {
-  ListaDeProdutos({Key key, this.titulo,this.storage}) : super(key: key);
+  ListaDeProdutos({
+    Key key,
+    this.titulo,
+    /*this.storage*/
+  }) : super(key: key);
   final String titulo;
-  final fileTransfer storage;
+  //final fileTransfer storage;
 
   @override
   _ListaDeprodutosState createState() => _ListaDeprodutosState();
@@ -39,6 +43,7 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
   List<Itens> listaPesquisa;
   bool isSearching = false;
   bool isInList = false;
+  String text;
 
   @override
   void initState() {
@@ -81,15 +86,16 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
     }
   }
 
-  Future <File> escreverArquivo(){
+  /*void escreverArquivo(){
     for(var i = 0;i<qtdListaPesquisa;i++){
-      dynamic linha = "${listaPesquisa[i].NomeProd} | ${listaPesquisa[i].CodBar} | ${listaPesquisa[i].QtdProd}";
+      String linha = "${listaPesquisa[i].NomeProd} | ${listaPesquisa[i].CodBar} | ${listaPesquisa[i].QtdProd}";
+      return writeFile(linha);
       //return widget.storage.writeFile(linha);
     }
-    return widget.storage.writeFile(listaPesquisa[1].NomeProd);
+    //return widget.storage.writeFile(listaPesquisa[1].NomeProd);
 
     //Get.snackbar('Exportado','Itens exportado com sucesso!');
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -183,7 +189,7 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
                 icon: Icon(Icons.description_rounded),
                 color: Colors.white,
                 onPressed: () {
-                  escreverArquivo();
+                  concatenar();
                 }),
             Padding(padding: EdgeInsets.fromLTRB(10, 0, 8, 0)),
             IconButton(
@@ -426,7 +432,7 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
               child: SingleChildScrollView(
                   child: Form(
                 key: _formkey,
-                    child: Column(
+                child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Flexible(
@@ -479,7 +485,6 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
         });
   }
 
-
   Widget _listaDeProdutos() {
     return ListView.builder(
       physics: const AlwaysScrollableScrollPhysics(),
@@ -522,6 +527,31 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
         );
       },
     );
+  }
+
+  Future get _localPath async {
+    final applicationDirectory = await getExternalStorageDirectory();
+
+    return applicationDirectory.path;
+  }
+
+  Future get _localFile async {
+    final path = await _localPath;
+    print(path);
+    return File('$path/file-name.txt');
+  }
+
+  void concatenar() {
+    for (var i = 0; i < qtdListaPesquisa; i++) {
+      String linha =
+          "${listaPesquisa[i].NomeProd} | ${listaPesquisa[i].CodBar} | ${listaPesquisa[i].QtdProd}\n";
+      _writeToFile(linha);
+    }
+  }
+
+  Future _writeToFile(String text) async {
+    final file = await _localFile;
+    File result = await file.writeAsString('$text', FileMode.append);
   }
 }
 

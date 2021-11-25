@@ -18,14 +18,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       theme: tema.copyWith(
           colorScheme: tema.colorScheme
-              .copyWith(primary: Colors.white, secondary: Colors.orange))
-      /*ThemeData(
-          textSelectionTheme: TextSelectionThemeData(
-              cursorColor: Colors.white, selectionColor: Colors.orange),
-          scaffoldBackgroundColor: Color(0xff232c51),
-          primaryColor: Colors.white,
-          bottomAppBarColor: Color(0xff18203d))*/
-      ,
+              .copyWith(primary: Colors.white, secondary: Colors.orange)),
       getPages: [
         GetPage(
           name: '/',
@@ -34,7 +27,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/AddItem', page: () => AddItem())
       ],
       title: 'Contador de Estoque',
-      home: ListaDeProdutos(titulo: 'Contador de Estoque', storage: fileTransfer()),
+      home: ListaDeProdutos(titulo: 'Contador de Estoque'),
     );
   }
 }

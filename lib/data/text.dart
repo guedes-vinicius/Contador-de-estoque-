@@ -4,23 +4,21 @@ import 'dart:async';
 import 'package:contador_estoque/screens/HomePage.dart';
 import 'package:contador_estoque/data/bancoHelper.dart';
 import 'package:contador_estoque/data/itens.dart';
-
+/*
 class fileTransfer {
 
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
-    return directory.path;
+  Future<String> _localPath() async {
+    Directory directory = await getApplicationDocumentsDirectory();
+    String documentPath = directory.path;
+    String filePath = '$documentPath/estoque.txt';
+    return filePath;
   }
 
-  Future<File> get _localFile async {
-    final path = await _localPath;
-    return File('$path/estoque.txt');
-  }
 
-  Future<File> writeFile(linha) async {
-    final file = await _localFile;
-    return file.writeAsString(linha);
+  void writeFile(linha) async {
+    File file = File(await _localPath());
+    file.writeAsString(linha);
   }
 
 //"${ListaPesquisa[i].NomeProd} | ${ListaPesquisa[i].CodBar} | ${ListaPesquisa[i].QtdProd}"
-}
+}*/
