@@ -542,28 +542,17 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
   }
 
   void concatenar() {
+    String linha2 = '';
     for (var i = 0; i < qtdListaPesquisa; i++) {
       String linha =
           "${listaPesquisa[i].NomeProd} | ${listaPesquisa[i].CodBar} | ${listaPesquisa[i].QtdProd}\n";
-      _writeToFile(linha);
+      linha2 = linha2 + linha;
+      _writeToFile(linha2);
     }
   }
 
   Future _writeToFile(String text) async {
     final file = await _localFile;
-    File result = await file.writeAsString('$text', FileMode.append);
+    File result = await file.writeAsString('$text');
   }
-}
-
-Widget _Loading() {
-  return Center(
-    child: Wrap(
-      alignment: WrapAlignment.center,
-      children: [
-        CircularProgressIndicator(),
-        SizedBox(width: 10),
-        Text('Loading...', style: TextStyle(fontSize: 20.0)),
-      ],
-    ),
-  );
 }
