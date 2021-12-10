@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:contador_estoque/data/bancoHelper.dart';
+import 'package:contador_estoque/screens/HomePage.dart';
 
 Widget campoNome(controler_nome) {
   return TextFormField(
@@ -83,6 +85,14 @@ Widget campoCodigo(controler_cod) {
         labelStyle: TextStyle(color: Colors.white)),
   );
 }
+
+Widget cancelButtom = TextButton(onPressed: () {}, child: Text("Cancelar"));
+Widget confirmButtom = TextButton(onPressed: () {}, child: Text('Confirmar'));
+
+AlertDialog exclusionConfirmation = AlertDialog(
+  title: Text('Zerar estoque?'),
+  content: Text('Se você confirar, todo o estoque zerá zerado. Tem certeza?'),
+);
 
 final Color primaryColor = Color(0xff18203d);
 final Color secondaryColor = Color(0xff232c51);

@@ -30,7 +30,7 @@ class DatabaseHelper {
   }
 
   Future<Database> inicializaBanco() async {
-    Directory diretorio = await getApplicationDocumentsDirectory();
+    Directory diretorio = await getExternalStorageDirectory();
     String path = diretorio.path + 'produtos.db';
 
     var bancoDeProdutos =
@@ -64,13 +64,6 @@ class DatabaseHelper {
     Database db = await this.database;
     var result = await db.rawQuery('SELECT * FROM tabela_produto ORDER BY id');
     return result;
-  }
-
-  Future<List<Map<String, dynamic>>> gerarArquivo() async {
-    Database db = await this.database;
-    await db.execute('.mode list');
-    await db.execute('.separator |');
-    await db.execute('.output');
   }
 
   Future<int> inserirProduto(Itens itens) async {

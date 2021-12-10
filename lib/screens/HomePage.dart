@@ -197,10 +197,11 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
                 color: Colors.white,
                 onPressed: () {
                   setState(() {
-                    banco.zerarQtd();
+                    showAlertDialog2(context);
+                    /*banco.zerarQtd();
                     listaPesquisa = listaDeProdutos;
                     _carregarLista();
-                    Get.snackbar("Zerado", "Estoque foi zerado com sucesso");
+                    Get.snackbar("Zerado", "Estoque foi zerado com sucesso");*/
                   });
                 }),
           ],
@@ -554,5 +555,39 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
   Future _writeToFile(String text) async {
     final file = await _localFile;
     File result = await file.writeAsString('$text');
+  }
+
+  showAlertDialog2(BuildContext context) {
+    Widget cancelButtom = TextButton(
+        onPressed: () {
+          Get.back();
+        },
+        child: Text("Cancelar"));
+    Widget confirmButtom = TextButton(
+        onPressed: () {
+          Get.back();
+          banco.zerarQtd();
+          listaDeProdutos = listaPesquisa;
+          _carregarLista();
+          Get.snackbar('Zerado', 'Estoque zerado com sucesso');
+        },
+        child: Text('Confirmar'));
+    AlertDialog exclusionConfirmation = AlertDialog(
+      backgroundColor: Color(0xff232c51),
+      title: Text(
+        'Tem certeza?',
+        style: TextStyle(color: Colors.white),
+      ),
+      content: Text(
+        'Se você confirar, todo o estoque zerá zerado sem possibilidade de volta.',
+        style: TextStyle(color: Colors.white),
+      ),
+      actions: [cancelButtom, confirmButtom],
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return exclusionConfirmation;
+        });
   }
 }
