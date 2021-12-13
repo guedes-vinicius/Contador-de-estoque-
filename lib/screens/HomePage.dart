@@ -1,25 +1,22 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:contador_estoque/controller/home_page_controler.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:contador_estoque/data/bancoHelper.dart';
 import 'package:contador_estoque/data/itens.dart';
-import 'package:get/get.dart';
 import 'package:contador_estoque/widgets/home_widgets.dart';
-import 'dart:async';
-import 'package:contador_estoque/screens/Add Item.dart';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-import 'package:contador_estoque/data/text.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share/share.dart';
 
 class ListaDeProdutos extends StatefulWidget {
   ListaDeProdutos({
     Key key,
     this.titulo,
-    /*this.storage*/
   }) : super(key: key);
   final String titulo;
-  //final fileTransfer storage;
 
   @override
   _ListaDeprodutosState createState() => _ListaDeprodutosState();
@@ -164,6 +161,12 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
                     width: 25, color: Colors.white),
                 onPressed: () {
                   Get.find<HomePageController>().escanearCodigoBarras();
+                  Future.delayed(const Duration(milliseconds: 600), () {
+                    _verificarCodBar();
+                  });
+                  //_verificarCodBar();
+                  /*
+                  Get.find<HomePageController>().escanearCodigoBarras();
                   if (Get.find<HomePageController>()
                       .valorCodigoBarras
                       .isEmpty) {
@@ -172,7 +175,7 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
                     Get.to('/');
                   } else {
                     _verificarCodBar();
-                  }
+                  }*/
                 }),
             Padding(padding: EdgeInsets.fromLTRB(30, 0, 0, 0)),
             GestureDetector(
@@ -198,10 +201,6 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
                 onPressed: () {
                   setState(() {
                     showAlertDialog2(context);
-                    /*banco.zerarQtd();
-                    listaPesquisa = listaDeProdutos;
-                    _carregarLista();
-                    Get.snackbar("Zerado", "Estoque foi zerado com sucesso");*/
                   });
                 }),
           ],
@@ -550,11 +549,17 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
       linha2 = linha2 + linha;
       _writeToFile(linha2);
     }
+    localToShare();
   }
 
   Future _writeToFile(String text) async {
     final file = await _localFile;
     File result = await file.writeAsString('$text');
+  }
+
+  void localToShare() async {
+    Directory dir = await getExternalStorageDirectory();
+    Share.shareFiles(['${dir.path}/file-name.txt']);
   }
 
   showAlertDialog2(BuildContext context) {
@@ -579,7 +584,7 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
         style: TextStyle(color: Colors.white),
       ),
       content: Text(
-        'Se você confirar, todo o estoque zerá zerado sem possibilidade de volta.',
+        'Se você confirmar, todo o estoque será zerado sem possibilidade de volta.',
         style: TextStyle(color: Colors.white),
       ),
       actions: [cancelButtom, confirmButtom],
