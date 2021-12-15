@@ -321,9 +321,18 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
             ),
             actions: <Widget>[
               TextButton(
+                  child: Text
+                    ('Cancelar',
+                      style: TextStyle(color: Colors.white)),
+                  onPressed: (){
+                    Get.find<HomePageController>().zerarCodigo();
+                    Get.back();
+                  }),
+              Padding(padding: EdgeInsets.only(left: 90)),
+              TextButton(
                 child: Text(
                   'Salvar',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.orange,fontSize: 19),
                 ),
                 onPressed: () {
                   Itens _itens;
@@ -345,8 +354,9 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
   void _adicionarProdutoCod() {
     _ccodigo.text = '';
     _cnome.text = '';
-    _ccodbar.text = Get.find<HomePageController>().valorCodigoBarras;
     _cqtd.text = '';
+    //GetBuilder<HomePageController>(controller){return Text(_ccodbar.text = controller.valorCodigoBarras.toString());}
+    _ccodbar.text = Get.find<HomePageController>().valorCodigoBarras;
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -390,6 +400,15 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
               )),
             ),
             actions: <Widget>[
+              TextButton(
+                  child: Text
+                    ('Cancelar',
+                      style: TextStyle(color: Colors.white)),
+                  onPressed: (){
+                    Get.find<HomePageController>().zerarCodigo();
+                    Get.back();
+                  }),
+              Padding(padding: EdgeInsets.only(left: 90)),
               TextButton(
                 child: Text(
                   'Salvar',
