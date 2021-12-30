@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:contador_estoque/controller/model_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'package:contador_estoque/controller/home_page_controler.dart';
 import 'package:contador_estoque/data/bancoHelper.dart';
@@ -39,7 +41,6 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
   List<Itens> listaDeProdutos;
   List<Itens> listaPesquisa;
   bool isSearching = false;
-  bool isInList = false;
   String text;
 
   @override
@@ -75,24 +76,6 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
       banco.ordenarNome();
     });
   }
-
-  testePercorrer() {
-    for (var i = 0; i < qtdListaPesquisa; i++) {
-      print(
-          "${listaDeProdutos[i].NomeProd} | ${listaDeProdutos[i].CodBar} | ${listaDeProdutos[i].QtdProd}");
-    }
-  }
-
-  /*void escreverArquivo(){
-    for(var i = 0;i<qtdListaPesquisa;i++){
-      String linha = "${listaPesquisa[i].NomeProd} | ${listaPesquisa[i].CodBar} | ${listaPesquisa[i].QtdProd}";
-      return writeFile(linha);
-      //return widget.storage.writeFile(linha);
-    }
-    //return widget.storage.writeFile(listaPesquisa[1].NomeProd);
-
-    //Get.snackbar('Exportado','Itens exportado com sucesso!');
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -161,9 +144,8 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
                     width: 25, color: Colors.white),
                 onPressed: () {
                   Get.find<HomePageController>().escanearCodigoBarras();
-                  Future.delayed(const Duration(milliseconds: 600), () {
-                    _verificarCodBar();
-                  });
+                  //_verificarCodBar();
+                  //context.read<Dados>().pegarCodigo();
                   //_verificarCodBar();
                   /*
                   Get.find<HomePageController>().escanearCodigoBarras();
@@ -258,7 +240,7 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
         .where(
             (Itens) => Itens.CodBar.toLowerCase().contains(valor.toLowerCase()))
         .toList();
-    if (listaPesquisa.length == 0 || listaPesquisa.isEmpty) {
+    if (listaPesquisa.length == 0) {
       _adicionarProdutoCod();
     } else {
       setState(() {
@@ -321,10 +303,9 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
             ),
             actions: <Widget>[
               TextButton(
-                  child: Text
-                    ('Cancelar',
-                      style: TextStyle(color: Colors.white)),
-                  onPressed: (){
+                  child:
+                      Text('Cancelar', style: TextStyle(color: Colors.white)),
+                  onPressed: () {
                     Get.find<HomePageController>().zerarCodigo();
                     Get.back();
                   }),
@@ -332,7 +313,7 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
               TextButton(
                 child: Text(
                   'Salvar',
-                  style: TextStyle(color: Colors.orange,fontSize: 19),
+                  style: TextStyle(color: Colors.orange, fontSize: 19),
                 ),
                 onPressed: () {
                   Itens _itens;
@@ -355,7 +336,7 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
     _ccodigo.text = '';
     _cnome.text = '';
     _cqtd.text = '';
-    //GetBuilder<HomePageController>(controller){return Text(_ccodbar.text = controller.valorCodigoBarras.toString());}
+    //_ccodbar.text = "${HomePageController.to.escanearCodigoBarras}";
     _ccodbar.text = Get.find<HomePageController>().valorCodigoBarras;
     showDialog(
         context: context,
@@ -401,10 +382,9 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
             ),
             actions: <Widget>[
               TextButton(
-                  child: Text
-                    ('Cancelar',
-                      style: TextStyle(color: Colors.white)),
-                  onPressed: (){
+                  child:
+                      Text('Cancelar', style: TextStyle(color: Colors.white)),
+                  onPressed: () {
                     Get.find<HomePageController>().zerarCodigo();
                     Get.back();
                   }),
