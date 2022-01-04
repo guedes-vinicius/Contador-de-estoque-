@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:contador_estoque/data/bancoHelper.dart';
 import 'package:contador_estoque/screens/HomePage.dart';
+import 'package:get/get.dart';
+import 'package:contador_estoque/controller/home_page_controler.dart';
 
 Widget campoNome(controler_nome) {
   return TextFormField(
@@ -86,6 +88,28 @@ Widget campoCodigo(controler_cod) {
   );
 }
 
+Widget campoCodBarLeitor(controler) {
+  return new TextFormField(
+    style: TextStyle(color: Colors.orange),
+    readOnly: true,
+    //controller: _ccodbar,
+    initialValue: Get.find<HomePageController>().valorCodigoBarras,
+    keyboardType: TextInputType.number,
+    validator: (valor) {
+      if (valor == null || valor.isEmpty || valor.trim().length < 13) {
+        return 'Invalido. O Codigo de barras precisa ter 13 digitos';
+      }
+    },
+    decoration: InputDecoration(
+      hintText: "Código de barras",
+      labelText: "Código de barras",
+      enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.white, width: 0.0)),
+      border: OutlineInputBorder(),
+    ),
+  );
+}
+
 Widget cancelButtom = TextButton(onPressed: () {}, child: Text("Cancelar"));
 Widget confirmButtom = TextButton(onPressed: () {}, child: Text('Confirmar'));
 
@@ -99,20 +123,3 @@ final Color secondaryColor = Color(0xff232c51);
 final Color logoGreen = Color(0xff25bcbb);
 final Color newcolor = Color(0xFF2661FA);
 final Color gradient = Color.fromARGB(255, 255, 136, 34);
-
-/*Widget campoCodBarLeitor(controler) {
-  return new TextFormField(
-    //controller: _ccodbar,
-    initialValue: Get.find<HomePageController>().valorCodigoBarras,
-    keyboardType: TextInputType.number,
-    validator: (valor) {
-      if (valor == null || valor.isEmpty || valor.trim().length < 13) {
-        return 'Invalido. O Codigo de barras precisa ter 13 digitos';
-      }
-    },
-    decoration: InputDecoration(
-        hintText: "Código de barras",
-        labelText: "Código de barras",
-        border: OutlineInputBorder()),
-  );
-}*/

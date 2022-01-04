@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:contador_estoque/controller/model_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'package:contador_estoque/controller/home_page_controler.dart';
 import 'package:contador_estoque/data/bancoHelper.dart';
@@ -76,24 +78,6 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
     });
   }
 
-  testePercorrer() {
-    for (var i = 0; i < qtdListaPesquisa; i++) {
-      print(
-          "${listaDeProdutos[i].NomeProd} | ${listaDeProdutos[i].CodBar} | ${listaDeProdutos[i].QtdProd}");
-    }
-  }
-
-  /*void escreverArquivo(){
-    for(var i = 0;i<qtdListaPesquisa;i++){
-      String linha = "${listaPesquisa[i].NomeProd} | ${listaPesquisa[i].CodBar} | ${listaPesquisa[i].QtdProd}";
-      return writeFile(linha);
-      //return widget.storage.writeFile(linha);
-    }
-    //return widget.storage.writeFile(listaPesquisa[1].NomeProd);
-
-    //Get.snackbar('Exportado','Itens exportado com sucesso!');
-  }*/
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,23 +143,9 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
             IconButton(
                 icon: Image.asset('assets/icon.png',
                     width: 25, color: Colors.white),
-                onPressed: () {
-                  Get.find<HomePageController>().escanearCodigoBarras();
-                  Future.delayed(const Duration(milliseconds: 600), () {
-                    _verificarCodBar();
-                  });
-                  //_verificarCodBar();
-                  /*
-                  Get.find<HomePageController>().escanearCodigoBarras();
-                  if (Get.find<HomePageController>()
-                      .valorCodigoBarras
-                      .isEmpty) {
-                    Get.snackbar(
-                        "Vazio", "Não consegui ler o codigo. Tente novamente");
-                    Get.to('/');
-                  } else {
-                    _verificarCodBar();
-                  }*/
+                onPressed: () async {
+                  await Get.find<HomePageController>().escanearCodigoBarras();
+                  _verificarCodBar();
                 }),
             Padding(padding: EdgeInsets.fromLTRB(30, 0, 0, 0)),
             GestureDetector(
@@ -258,7 +228,7 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
         .where(
             (Itens) => Itens.CodBar.toLowerCase().contains(valor.toLowerCase()))
         .toList();
-    if (listaPesquisa.length == 0 || listaPesquisa.isEmpty) {
+    if (listaPesquisa.length == 0) {
       _adicionarProdutoCod();
     } else {
       setState(() {
@@ -321,10 +291,9 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
             ),
             actions: <Widget>[
               TextButton(
-                  child: Text
-                    ('Cancelar',
-                      style: TextStyle(color: Colors.white)),
-                  onPressed: (){
+                  child:
+                      Text('Cancelar', style: TextStyle(color: Colors.white)),
+                  onPressed: () {
                     Get.find<HomePageController>().zerarCodigo();
                     Get.back();
                   }),
@@ -332,7 +301,7 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
               TextButton(
                 child: Text(
                   'Salvar',
-                  style: TextStyle(color: Colors.orange,fontSize: 19),
+                  style: TextStyle(color: Colors.orange, fontSize: 19),
                 ),
                 onPressed: () {
                   Itens _itens;
@@ -351,12 +320,11 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
         });
   }
 
-  void _adicionarProdutoCod() {
+  void _adicionarProdutoCod() async {
     _ccodigo.text = '';
     _cnome.text = '';
     _cqtd.text = '';
-    //GetBuilder<HomePageController>(controller){return Text(_ccodbar.text = controller.valorCodigoBarras.toString());}
-    _ccodbar.text = Get.find<HomePageController>().valorCodigoBarras;
+    _ccodbar.text = await Get.find<HomePageController>().valorCodigoBarras;
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -388,7 +356,7 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
                       height: 10,
                     ),
                     Flexible(
-                      child: campoCodBar(_ccodbar),
+                      child: campoCodBarLeitor(_ccodbar),
                     ),
                     Divider(
                       height: 10,
@@ -401,10 +369,9 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
             ),
             actions: <Widget>[
               TextButton(
-                  child: Text
-                    ('Cancelar',
-                      style: TextStyle(color: Colors.white)),
-                  onPressed: (){
+                  child:
+                      Text('Cancelar', style: TextStyle(color: Colors.white)),
+                  onPressed: () {
                     Get.find<HomePageController>().zerarCodigo();
                     Get.back();
                   }),
