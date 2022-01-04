@@ -41,7 +41,6 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
   List<Itens> listaDeProdutos;
   List<Itens> listaPesquisa;
   bool isSearching = false;
-  bool isInList = false;
   String text;
 
   @override
@@ -324,7 +323,8 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
     _ccodigo.text = '';
     _cnome.text = '';
     _cqtd.text = '';
-    _ccodbar.text = await Get.find<HomePageController>().valorCodigoBarras;
+    _ccodbar.text = Get.find<HomePageController>().valorCodigoBarras;
+
     showDialog(
         context: context,
         builder: (BuildContext context) {
