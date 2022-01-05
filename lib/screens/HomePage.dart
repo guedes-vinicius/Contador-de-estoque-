@@ -1,13 +1,10 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:contador_estoque/controller/model_provider.dart';
-import 'package:provider/provider.dart';
 
 import 'package:contador_estoque/controller/home_page_controler.dart';
 import 'package:contador_estoque/data/bancoHelper.dart';
 import 'package:contador_estoque/data/itens.dart';
 import 'package:contador_estoque/widgets/home_widgets.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
@@ -180,7 +177,6 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
         child: Icon(Icons.add),
         onPressed: () {
           _adicionarProduto();
-          //Get.to(() => AddItem());
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -319,7 +315,7 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
         });
   }
 
-  void _adicionarProdutoCod() async {
+  void _adicionarProdutoCod() {
     _ccodigo.text = '';
     _cnome.text = '';
     _cqtd.text = '';
@@ -480,7 +476,6 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
           child: ListTile(
             title: Row(
               children: <Widget>[
-                // Daqui pra baixo, não tenho a minima noção de como esta funcionando.
                 Expanded(
                     child: Text(
                   listaPesquisa[index].CodProd,
@@ -553,7 +548,10 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
         onPressed: () {
           Get.back();
         },
-        child: Text("Cancelar"));
+        child: Text(
+          "Cancelar",
+          style: TextStyle(color: Colors.orange),
+        ));
     Widget confirmButtom = TextButton(
         onPressed: () {
           Get.back();
