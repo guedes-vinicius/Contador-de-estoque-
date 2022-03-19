@@ -1,16 +1,13 @@
-# contador_estoque
+# Contador de Estoque
 
-contador de estoque 
+## O que é?
 
-## Getting Started
+O contador de estoque é um sistema para contar o estoque
+de loja para posteriormente exportar arquivo para
+acompanhar a quantidade ou exportar para um sistema ERP externo
+afim de controlar o estoque.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Como funciona?
+Contador de estoque é um CRUD (Create, Read, Update, Delete)
+podendo ser feito o cadastro ou pesquisa manual, ou pela câmera
+do telefone através de leitura de código de barras.
