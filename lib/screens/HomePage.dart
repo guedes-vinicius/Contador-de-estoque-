@@ -68,16 +68,27 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
     });
   }
 
-  _ordenarPorNome() {
-    setState(() {
-      banco.ordenarNome();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: PopupMenuButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(20.0),
+              ),
+            ),
+            color: Color(0xff232c51),
+            icon: Icon(Icons.more_vert),
+            itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                  const PopupMenuItem(
+                      child: Text(
+                    'Importar dados',
+                    style: TextStyle(color: Colors.white),
+                  )),
+                  PopupMenuDivider(),
+                  const PopupMenuItem(child: Text('Leitor constante'))
+                ]),
         backgroundColor: Color(0xff18203d),
         title: !isSearching
             ? TextButton(
@@ -213,6 +224,15 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
       listaPesquisa = listaDeProdutos
           .where((Itens) =>
               Itens.NomeProd.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    });
+  }
+
+  void _filterCode(value) {
+    setState(() {
+      listaPesquisa = listaDeProdutos
+          .where((Itens) =>
+              Itens.CodProd.toLowerCase().contains(value.toLowerCase()))
           .toList();
     });
   }
@@ -518,15 +538,14 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
 
   Future get _localFile async {
     final path = await _localPath;
-    print(path);
-    return File('$path/file-name.txt');
+    return File('$path/Contagem.txt');
   }
 
   void concatenar() {
     String linha2 = '';
     for (var i = 0; i < qtdListaPesquisa; i++) {
       String linha =
-          "${listaPesquisa[i].NomeProd} | ${listaPesquisa[i].CodBar} | ${listaPesquisa[i].QtdProd}\n";
+          "${listaPesquisa[i].CodProd}|${listaPesquisa[i].CodBar}|${listaPesquisa[i].QtdProd}\n";
       linha2 = linha2 + linha;
       _writeToFile(linha2);
     }
@@ -535,12 +554,13 @@ class _ListaDeprodutosState extends State<ListaDeProdutos> {
 
   Future _writeToFile(String text) async {
     final file = await _localFile;
+    // ignore: unused_local_variable
     File result = await file.writeAsString('$text');
   }
 
   void localToShare() async {
     Directory dir = await getExternalStorageDirectory();
-    Share.shareFiles(['${dir.path}/file-name.txt']);
+    Share.shareFiles(['${dir.path}/Contagem.txt']);
   }
 
   showAlertDialog2(BuildContext context) {

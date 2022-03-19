@@ -26,12 +26,12 @@ Widget campoNome(controler_nome) {
 }
 
 Widget campoCodBar(controler_cod) {
-  return new TextFormField(
+  return TextFormField(
     style: TextStyle(color: Colors.orange),
     controller: controler_cod,
     keyboardType: TextInputType.number,
     validator: (valor) {
-      if (valor == null || valor.isEmpty || valor.trim().length < 13) {
+      if (valor.trim().length > 1 && valor.trim().length < 13) {
         return 'Invalido. O Codigo de barras precisa ter 13 digitos';
       }
     },
@@ -47,7 +47,7 @@ Widget campoCodBar(controler_cod) {
 }
 
 Widget campoQtd(controler_qtd) {
-  return new TextFormField(
+  return TextFormField(
     style: TextStyle(color: Colors.orange),
     controller: controler_qtd,
     keyboardType: TextInputType.number,
@@ -68,7 +68,7 @@ Widget campoQtd(controler_qtd) {
 }
 
 Widget campoCodigo(controler_cod) {
-  return new TextFormField(
+  return TextFormField(
     style: TextStyle(color: Colors.orange),
     controller: controler_cod,
     keyboardType: TextInputType.text,
@@ -89,10 +89,9 @@ Widget campoCodigo(controler_cod) {
 }
 
 Widget campoCodBarLeitor(controler) {
-  return new TextFormField(
+  return TextFormField(
     style: TextStyle(color: Colors.orange),
     readOnly: true,
-    //controller: _ccodbar,
     initialValue: Get.find<HomePageController>().valorCodigoBarras,
     keyboardType: TextInputType.number,
     validator: (valor) {
@@ -109,17 +108,3 @@ Widget campoCodBarLeitor(controler) {
     ),
   );
 }
-
-Widget cancelButtom = TextButton(onPressed: () {}, child: Text("Cancelar"));
-Widget confirmButtom = TextButton(onPressed: () {}, child: Text('Confirmar'));
-
-AlertDialog exclusionConfirmation = AlertDialog(
-  title: Text('Zerar estoque?'),
-  content: Text('Se você confirar, todo o estoque zerá zerado. Tem certeza?'),
-);
-
-final Color primaryColor = Color(0xff18203d);
-final Color secondaryColor = Color(0xff232c51);
-final Color logoGreen = Color(0xff25bcbb);
-final Color newcolor = Color(0xFF2661FA);
-final Color gradient = Color.fromARGB(255, 255, 136, 34);
